@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+<title>lab8(avtar)</title>
+<link href="main.css" rel="stylesheet">
+<script src="geolocationapi.js" defer></script>
+<script src="api.js" async></script>
+
+</head>
+<body>
+<header>
+
+
+</header>
+<Section>
+
+</Section>
+
+
+<section class="row"> 
+    <h2> Ice Cream Shops Near You </h2>
+    <button id="mylocation"> Is There A Ice Cream Store Near Me? </button>
+    <p id="location"></p>
+    <a id ="map-link" target="_blank"></a>
+</section>
+</div>
+<div class="div3">
+    <div class="input">
+        <input type="text" class="inputValue" placeholder="Enter the City">
+        <input type="submit" value="Check Weather OutSide!!" id="button" class="btn btn-outline-danger">
+    </div>
+
+    <div class="display">
+        <h1 class="name"></h1>
+        <p class="desc">
+        </p>
+        <p class="temp"></p>
+
+    </div>
+</div>
+<footer>
+
+</footer>
+<script>
+
+let header = document.querySelector('header');
+let section = document.querySelector('section');
+
+let requestURL='https://avtarsingh5199.github.io/Json-lab/products.json';
+
+let request= new XMLHttpRequest();
+
+request.open('GET',requestURL);
+
+request.responseType = 'json';
+
+request.send();
+
+request.onload =function(){
+    let iScreamInc = request.response;
+    console.log(iScreamInc);
+    populateHeader(iScreamInc);
+    topDeals(iScreamInc);
+}
+
+function populateHeader(jsonObj){
+    let headerH1 = document.createElement('h1');
+    headerH1.textContent = jsonObj['companyName'];
+    header.appendChild(headerH1);
+    let headerPara = document.createElement('p');
+    headerPara.textContent = jsonObj['headOffice'];
+    header.appendChild(headerPara);
+}
+
+function topDeals(jsonObj) {
+    let topDeals = jsonObj['topDeals'];
+    for(let i = 0; i < topDeals.length; i++){
+        let article = document.createElement('article');
+        let h2 = document.createElement('h2');
+        let img = document.createElement('img');
+        let p1 = document.createElement('p');
+        let p2 = document.createElement('p');
+        let list = document.createElement('li');
+
+        img.setAttribute('src','images/' + topDeals[i].image);
+        img.setAttribute('alt',topDeals[i].name)
+        img.setAttribute('width',300)
+        h2.textContent = topDeals[i].name;
+        p2.textContent = topDeals[i].description;
+        p1.textContent= ['Price = ' + topDeals[i].price + "$"];
+
+        let features = topDeals[i].features;
+        for(let j = 0; j < features.length; j++){
+            let listItem = document.createElement('li');
+            listItem.textContent =features[j];
+            list.appendChild(listItem);
+        }
+            article.appendChild(img);
+            article.appendChild(h2);
+            article.appendChild(p2);
+            article.appendChild(p1);
+            article.appendChild(list);
+
+            section.appendChild(article);
+
+
+    }
+}
+
+
+</script>
+</body>
+</html>
